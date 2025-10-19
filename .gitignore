@@ -1,0 +1,92 @@
+# ===============================
+# Arquivos do macOS
+# ===============================
+.DS_Store
+.AppleDouble
+.LSOverride
+*.icloud
+
+# Trash e caches do sistema
+.Trashes
+.Spotlight-V100
+.fseventsd
+
+# ===============================
+# Ambientes Virtuais Python
+# ===============================
+venv/
+ENV/
+env/
+.aenv/
+.aenv.bak/
+.aenv_old/
+.aenv_*/
+
+# ===============================
+# Arquivos de compilação Python
+# ===============================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ===============================
+# Logs e arquivos temporários
+# ===============================
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+
+# ===============================
+# Configurações do Jupyter e IPython
+# ===============================
+.ipynb_checkpoints
+jupyter_cache/
+.ipython/
+
+# ===============================
+# Dados e arquivos grandes
+# ===============================
+data/
+datasets/
+downloads/
+tmp/
+*.csv
+*.tsv
+*.txt
+*.zip
+*.7z
+*.tar.gz
+*.tar
+*.parquet
+
+# ===============================
+# VS Code
+# ===============================
+.vscode/
+.history/
+
+# ===============================
+# PyCharm / IntelliJ
+# ===============================
+.idea/
+
+# ===============================
+# Configurações locais
+# ===============================
+local_settings.py
+config_local.py
+
+# ===============================
+# Arquivos sensíveis
+# ===============================
+*.key
+*.pem
+*.crt
+*.env
+.env.*
+secret_*.json
+credentials.json
+auth.json
