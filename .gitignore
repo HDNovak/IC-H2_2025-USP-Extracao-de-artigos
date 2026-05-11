@@ -63,6 +63,8 @@ out_simples/
 *.tar.gz
 *.tar
 *.parquet
+*.html
+*.xlsx
 
 # ===============================
 # VS Code
