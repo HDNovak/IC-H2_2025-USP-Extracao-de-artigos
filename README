@@ -1,0 +1,525 @@
+# IC-H2-2025-USP — Extração e Análise de Produção Acadêmica sobre Elites no Brasil (1970–2025)
+
+Pipeline computacional para coleta, enriquecimento, normalização e análise de produções acadêmicas relacionadas ao campo das elites no Brasil, utilizando principalmente dados da SciELO Brasil.
+
+---
+
+# Objetivo do Projeto
+
+O objetivo deste projeto é construir e analisar um corpus da produção acadêmica brasileira referente ao campo das elites, visando:
+
+- Elencar as principais palavras-chave utilizadas pelos autores;
+- Identificar autores dominantes no campo;
+- Ranquear autores mobilizados nas referências bibliográficas;
+- Entender os principais campos de estudo envolvidos;
+- Delimitar instituições, estados e regiões predominantes;
+- Mapear periódicos centrais;
+- Identificar metodologias utilizadas;
+- Construir análises temporais e estruturais do campo científico.
+
+---
+
+# Escopo Temporal
+
+O corpus considera produções entre:
+
+```text
+1970–2025
+```
+
+---
+
+# Fontes de Dados
+
+## Fonte principal
+
+- SciELO Brasil
+
+## Fontes complementares previstas
+
+- BDTD
+- CAPES
+- OpenAlex
+- Crossref
+- Repositórios institucionais
+
+---
+
+# Tecnologias Utilizadas
+
+## Linguagem
+
+```text
+Python 3.11+
+```
+
+## Bibliotecas Principais
+
+```python
+pandas
+numpy
+selenium
+webdriver-manager
+beautifulsoup4
+requests
+lxml
+openpyxl
+tqdm
+unidecode
+matplotlib
+seaborn
+```
+
+---
+
+# Uso de Inteligência Artificial
+
+Parte da estruturação da pipeline, refatoração dos notebooks, organização metodológica computacional e documentação do projeto contou com apoio de modelos da OpenAI.
+
+## Modelo Utilizado
+
+```text
+GPT-5.5 (OpenAI ChatGPT)
+```
+
+## Principais usos do modelo
+
+- Estruturação da arquitetura da pipeline;
+- Refatoração dos notebooks;
+- Padronização do código;
+- Criação de heurísticas de classificação;
+- Normalização institucional;
+- Parsing heurístico de referências;
+- Organização metodológica do corpus;
+- Geração de documentação técnica;
+- Discussões sobre desenho analítico do projeto.
+
+Toda validação metodológica, interpretação sociológica e revisão crítica foram realizadas manualmente pelo autor do projeto.
+
+---
+
+# Estrutura do Projeto
+
+```text
+IC-H2-2025-USP-Extracao-de-artigos/
+│
+├── BDTD/
+│   ├── busca_integrada_scrapper_revisado_4.ipynb
+│   ├── deepseek_json_20260509_8.ipynb
+│   └── deepseek_json_20260509_9.ipynb
+│
+├── icenv/
+│
+├── outputs_scielo_multitermos/
+│
+├── Scielo/
+│   │
+│   ├── 01.data_collect/
+│   │   ├── 01_scrape_scielo_keywords_refactored.ipynb
+│   │   ├── 01.dc_scrapper_sellenium_scielo.ipynb
+│   │   └── scrapper_sellenium_scielo.ipynb
+│   │
+│   ├── 02.data_enrich/
+│   │   ├── 02_enrich_scielo_articles_refactored.ipynb
+│   │   └── 02.de_doi_enrich_scielo.ipynb
+│   │
+│   ├── 03.data_cleaning/
+│   │   ├── 03_normalize_scielo_corpus_refactored.ipynb
+│   │   └── scielo_column_creation.ipynb
+│   │
+│   └── 04.data_analysis/
+│       ├── 04_analyze_scielo_corpus_refactored.ipynb
+│       ├── scielo_norm_analysis_multi_keywords.ipynb
+│       └── scielo_norm_analysis.ipynb
+│
+├── data/
+├── logs/
+│
+├── .gitignore
+├── README.md
+└── requirements.txt
+```
+
+---
+
+# Estrutura Geral da Pipeline
+
+A pipeline foi organizada em quatro grandes etapas:
+
+```text
+01.data_collect
+02.data_enrich
+03.data_cleaning
+04.data_analysis
+```
+
+---
+
+# 01 — Coleta de Dados (Data Collect)
+
+Diretório:
+
+```text
+Scielo/01.data_collect/
+```
+
+## Objetivo
+
+Realizar scraping automatizado da busca da SciELO Brasil utilizando Selenium.
+
+## Notebooks principais
+
+```text
+01_scrape_scielo_keywords_refactored.ipynb
+```
+
+## Outputs
+
+Arquivos brutos contendo os resultados da busca:
+
+```text
+search_results_<keyword>.csv
+search_results_<keyword>.json
+```
+
+## Principais campos coletados
+
+- title
+- authors
+- journal
+- year
+- doi
+- abstract
+- link
+- search_keyword
+- search_group
+
+---
+
+# 02 — Enriquecimento dos Artigos (Data Enrich)
+
+Diretório:
+
+```text
+Scielo/02.data_enrich/
+```
+
+## Objetivo
+
+Entrar nas páginas individuais dos artigos e enriquecer os metadados.
+
+## Notebook principal
+
+```text
+02_enrich_scielo_articles_refactored.ipynb
+```
+
+## Metadados enriquecidos
+
+- article_title
+- article_authors
+- article_keywords
+- article_institutions
+- article_abstract
+- article_references
+- article_full_text_sample
+- article_language
+- article_publisher
+- article_doi
+
+## Outputs
+
+```text
+enriched_<keyword>.csv
+```
+
+---
+
+# 03 — Limpeza e Normalização (Data Cleaning)
+
+Diretório:
+
+```text
+Scielo/03.data_cleaning/
+```
+
+## Objetivo
+
+Padronizar, limpar e normalizar os dados coletados.
+
+## Notebook principal
+
+```text
+03_normalize_scielo_corpus_refactored.ipynb
+```
+
+## Processos realizados
+
+### Limpeza textual
+
+- Remoção de HTML;
+- Normalização Unicode;
+- Limpeza de espaços;
+- Padronização textual.
+
+### Normalização institucional
+
+Exemplos:
+
+```text
+USP → Universidade de São Paulo
+UFRJ → Universidade Federal do Rio de Janeiro
+PUC-SP → Pontifícia Universidade Católica de São Paulo
+```
+
+### Normalização geográfica
+
+Geração automática de:
+
+- institution_states
+- institution_regions
+- institution_countries
+
+### Classificações
+
+- document_type_v2
+- is_core_research_article_v2
+
+## Outputs
+
+```text
+03_corpus_<keyword>_scielo_clean_full.csv
+```
+
+---
+
+# 04 — Análise do Corpus (Data Analysis)
+
+Diretório:
+
+```text
+Scielo/04.data_analysis/
+```
+
+## Objetivo
+
+Gerar rankings, análises e cruzamentos analíticos do corpus.
+
+## Notebook principal
+
+```text
+04_analyze_scielo_corpus_refactored.ipynb
+```
+
+## Outputs
+
+Diretório:
+
+```text
+outputs_scielo_multitermos/
+```
+
+---
+
+# Outputs Analíticos
+
+## Corpus consolidado
+
+```text
+corpus_elites_scielo_multitermos_analytical.csv
+```
+
+---
+
+# Rankings Gerados
+
+## Produção
+
+```text
+rank_01_autores_produtores.csv
+rank_02_periodicos.csv
+rank_03_palavras_chave.csv
+rank_04_instituicoes.csv
+rank_05_estados.csv
+rank_06_regioes.csv
+rank_07_anos.csv
+```
+
+---
+
+# Campo Científico
+
+```text
+rank_08_campos_estudo.csv
+```
+
+Campos identificados:
+
+- Sociologia
+- Ciência Política
+- História
+- Direito
+- Educação
+- Economia
+- Geografia
+- Antropologia
+- Saúde
+
+---
+
+# Metodologias
+
+```text
+rank_09_metodologias.csv
+```
+
+Categorias:
+
+- Quantitativa
+- Qualitativa
+- Bibliográfica/Teórica
+- Documental
+- Comparativa
+- Mista
+
+---
+
+# Autores Citados
+
+```text
+rank_10_autores_citados_v1.csv
+```
+
+Parsing heurístico de referências bibliográficas.
+
+---
+
+# Cruzamentos Analíticos
+
+## Temporal
+
+```text
+cross_01_campo_por_ano.csv
+cross_02_metodologia_por_ano.csv
+cross_03_regiao_por_ano.csv
+```
+
+## Estrutural
+
+```text
+cross_04_campo_por_regiao.csv
+```
+
+---
+
+# Excel Consolidado
+
+```text
+analise_corpus_elites_scielo.xlsx
+```
+
+Contendo todas as abas analíticas.
+
+---
+
+# Estrutura Conceitual das Keywords
+
+As keywords foram organizadas em clusters analíticos.
+
+## Elites
+
+```text
+elites
+sociologia das elites
+elite política
+elite econômica
+elite empresarial
+elite financeira
+```
+
+## Classes Dirigentes
+
+```text
+classes dirigentes
+grupo dirigente
+grupos dirigentes
+classe dominante
+classes dominantes
+```
+
+## Campo do Poder
+
+```text
+campo do poder
+grupo de poder
+quem governa
+```
+
+## Burguesia
+
+```text
+burguesia
+burguesia industrial
+burguesia financeira
+burguesia bancária
+```
+
+---
+
+# Estratégia de Validação Manual
+
+Além da validação automatizada da pipeline, será realizada uma validação manual do corpus.
+
+## Procedimento
+
+- Seleção aleatória de 5% das linhas obtidas;
+- Leitura integral dos resumos;
+- Verificação manual da aderência temática ao campo das elites;
+- Verificação da consistência das classificações automáticas;
+- Identificação de falsos positivos;
+- Ajuste iterativo das heurísticas.
+
+## Objetivos da validação
+
+- Avaliar precisão temática do corpus;
+- Validar qualidade das classificações;
+- Refinar regras heurísticas;
+- Identificar ruídos de scraping e normalização;
+- Melhorar consistência metodológica do dataset.
+
+---
+
+# Limitações Atuais
+
+## Limitações conhecidas
+
+- Parsing heurístico de referências;
+- Classificação metodológica baseada em regras textuais;
+- Dependência da estrutura HTML da SciELO;
+- Possibilidade de ruído em termos muito amplos;
+- Instituições parcialmente inferidas por regras.
+
+## Melhorias futuras
+
+- Integração com OpenAlex;
+- Integração com Crossref;
+- Redes de co-citação;
+- Redes de autores;
+- Topic Modeling;
+- NLP/NER;
+- Clusterização temática;
+- Expansão para BDTD e CAPES.
+
+---
+
+# Autor
+
+Henrique Diniz Novak - NUSP: 10349828
+
+Projeto de Iniciação Científica voltado à análise da produção acadêmica sobre elites, poder e classes dirigentes no Brasil.
+
+---
+
+# Licença
+
+Uso acadêmico e de pesquisa.
